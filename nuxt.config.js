@@ -1,4 +1,8 @@
 export default {
+  server: {
+    port: 4000,
+  },
+
   // Target (https://go.nuxtjs.dev/config-target)
   target: 'static',
 
@@ -21,6 +25,7 @@ export default {
 
   // Plugins to run before rendering page (https://go.nuxtjs.dev/config-plugins)
   plugins: [
+    '~/plugins/roastAPI.js'
   ],
 
   // Auto import components (https://go.nuxtjs.dev/config-components)
@@ -30,6 +35,7 @@ export default {
   buildModules: [
     // https://go.nuxtjs.dev/tailwindcss
     '@nuxtjs/tailwindcss',
+    '@tailwindcss/ui'
   ],
 
   // Modules (https://go.nuxtjs.dev/config-modules)
@@ -38,10 +44,39 @@ export default {
     '@nuxtjs/axios',
     // https://go.nuxtjs.dev/content
     '@nuxt/content',
+    '@nuxtjs/dotenv',
+    '@nuxtjs/auth-next'
   ],
 
   // Axios module configuration (https://go.nuxtjs.dev/config-axios)
-  axios: {},
+  axios: {
+    baseURL: 'http://localhost:80',
+    credentials: true
+  },
+
+  auth: {
+    redirect:{
+      login: '/',
+      home: false
+    },
+    strategies: {
+      'laravelSanctum': {
+        provider: 'laravel/sanctum',
+        url: process.env.API_BASE_URL,
+        endpoints:{
+          login:{
+            url: '/login',
+          },
+          user: {
+            url: '/api/v1/user'
+          },
+          logout: {
+            url: '/logout'
+          }
+        }
+      }
+    }
+  },
 
   // Content module configuration (https://go.nuxtjs.dev/content-config)
   content: {},

@@ -1,0 +1,82 @@
+<template>
+  <div>
+    <div class="w-full bg-cover bg-center h-56.25 md:h-72 lg:h-125" :style="'background-image: url(' + company.header_image_url + ')'"></div>
+    <div class="flex flex-col pb-10 pt-10 w-full mx-auto max-w-screen-xl">
+      <div class="px-4 sm:px-6 flex items-center justify-between">
+        <div class="flex-1 min-w-0 max-w-md items-center flex">
+          <img :src="company.logo_url" alt="" class="h-20 w-20 rounded-full">
+
+          <div class="ml-5">
+            <h1 class="text-2xl font-bold leading-7 text-gray-900 sm:text-3xl sm:leading-9 sm:truncate">
+              {{ company.name }}
+            </h1>
+            <div class="mt-1 flex flex-col sm:mt-0 sm:flex-row sm:flex-wrap">
+              <div class="mt-2 flex items-center text-sm leading-5 text-gray-500 sm:mr-6">
+                <svg class="flex-shrink-0 mr-1 h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
+                2 Cafes
+              </div>
+              <div class="mt-2 flex items-center text-sm leading-5 text-gray-500 sm:mr-6" v-if="company.roaster">
+                <svg class="flex-shrink-0 mr-1 h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"></path></svg>
+                Roaster
+              </div>
+              <div class="mt-2 flex items-center text-sm leading-5 text-gray-500 sm:mr-6">
+                <!-- Heroicon name: location-marker -->
+                <svg class="flex-shrink-0 mr-1 h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd" />
+                </svg>
+                {{ company.city }}, {{ company.state }}
+              </div>
+              <a :href="company.website" target="_blank" class="mt-2 flex items-center text-sm leading-5 text-gray-500">
+                <svg class="flex-shrink-0 mr-1 h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"></path></svg>
+                Website
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div class="mt-5 flex lg:mt-0 lg:ml-4 lg:flex-row flex-col" v-if="$auth.loggedIn">
+          <span class="shadow-sm rounded-md lg:mr-2 lg:mb-0 mb-2">
+            <nuxt-link :to="'/companies/' + company.slug + '/edit'" class="inline-flex items-center px-4 py-2 border border-gray-300 text-sm leading-5 font-medium rounded-md text-gray-700 bg-white hover:text-gray-500 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 active:text-gray-800 active:bg-gray-50 transition duration-150 ease-in-out">
+              <svg class="sm:-ml-1 sm:mr-2 h-5 w-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg>
+              <span class="hidden sm:block">Edit company</span>
+            </nuxt-link>
+          </span>
+
+          <span class="shadow-sm rounded-md">
+            <a @click.prevent="deleteCompany" href="#" class="inline-flex items-center px-4 py-2 border border-red-400 text-sm leading-5 font-medium rounded-md text-gray-700 bg-white hover:border-red-500 focus:outline-none focus:shadow-outline-red focus:border-red-300 active:text-red-800 active:bg-red-50 transition duration-150 ease-in-out">
+              <svg class="sm:-ml-1 sm:mr-2 h-5 w-5 text-red-400 hover:text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+              <span class="hidden sm:block text-red-400 hover:text-red-500">Delete company</span>
+            </a>
+          </span>
+        </div>
+      </div>
+
+      <div class="companies-list mt-4 flex justify-between flex-wrap overflow-x-auto pt-2 px-4 sm:px-6 lg:flex-wrap">
+
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+export default {
+  layout: 'App',
+  async asyncData( ctx ) {
+    return {
+      company: await ctx.app.$api.companies.show( ctx.params.slug )
+    }
+  },
+  methods: {
+    async deleteCompany() {
+      if ( confirm('Are you sure you want to delete?') ) {
+        await this.$api.companies.delete( this.company.slug )
+          .then( function ( response ) {
+            this.$router.push( {
+              path: `/companies`
+            } );
+          }.bind( this ) );
+      }
+    }
+  }
+}
+</script>
