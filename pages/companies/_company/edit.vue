@@ -8,7 +8,7 @@
       </div>
 
       <div class="mt-4 flex justify-between flex-wrap overflow-x-auto pt-2 px-4 sm:px-6 lg:flex-wrap">
-        <form class="w-full mx-auto">
+        <form class="w-full mx-auto sm:border border-darkGrayBorder md:rounded-lg mt-7.5 sm:p-10">
           <div class="flex flex-wrap -mx-3 mb-6">
             <div class="w-full px-3">
               <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-name">
@@ -77,51 +77,6 @@
           </div>
 
           <div class="flex flex-wrap -mx-3 mb-6">
-            <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
-              <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-address">
-                Address
-              </label>
-              <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded
-                              py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                      id="grid-address"
-                      type="text"
-                      :class="{ 'border-red-500': !validations.address }"
-                      v-model="form.address"
-                      placeholder="711-2880 Nulla St.">
-            </div>
-            <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
-              <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-roaster">
-                Are you a roaster?
-              </label>
-              <div class="relative">
-                <select class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700
-                                py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                        id="grid-roaster"
-                        v-model="form.roaster">
-                  <option value="1">Yes</option>
-                  <option value="0">No</option>
-                </select>
-                <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-                  <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                    <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/>
-                  </svg>
-                </div>
-              </div>
-            </div>
-            <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
-              <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-website">
-                Website
-              </label>
-              <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded
-                              py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                      id="grid-website"
-                      type="text"
-                      v-model="form.website"
-                      placeholder="https://voch-vandervort.com">
-            </div>
-          </div>
-
-          <div class="flex flex-wrap -mx-3 mb-6">
             <div class="w-full px-3">
               <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-description">
                 Description
@@ -136,6 +91,7 @@
             </div>
           </div>
 
+          <div class="text-gray-700 text-xl font-bold mb-2">Location</div>
           <div class="flex flex-wrap -mx-3 mb-6">
             <div class="w-full md:w-1/3 px-3 mb-6 md:mb-2">
               <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-state">
@@ -418,6 +374,7 @@
                       v-model="form.city"
                       placeholder="Albuquerque">
             </div>
+
             <div class="w-full md:w-1/3 px-3 mb-6 md:mb-2" v-show="form.country == 'US'">
               <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-state">
                 State
@@ -487,6 +444,20 @@
                 </div>
               </div>
             </div>
+
+            <div class="w-full md:w-1/3 px-3 mb-6 md:mb-2">
+              <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-address">
+                Address
+              </label>
+              <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded
+                              py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                      id="grid-address"
+                      type="text"
+                      :class="{ 'border-red-500': !validations.address }"
+                      v-model="form.address"
+                      placeholder="711-2880 Nulla St.">
+            </div>
+
             <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
               <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-zip">
                 Zip
@@ -501,7 +472,19 @@
             </div>
           </div>
 
+          <div class="text-gray-700 text-xl font-bold mb-2">Online Presence</div>
           <div class="flex flex-wrap -mx-3 mb-6">
+            <div class="w-full md:w-1/3 px-3 mb-6 md:mb-2">
+              <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-website">
+                Website
+              </label>
+              <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded
+                              py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                      id="grid-website"
+                      type="text"
+                      v-model="form.website"
+                      placeholder="https://voch-vandervort.com">
+            </div>
             <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
               <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-facebook">
                 Facebook Url
@@ -534,6 +517,22 @@
                       type="text"
                       v-model="form.instagram_url"
                       placeholder="https://instagram.com">
+            </div>
+          </div>
+
+          <div class="text-gray-700 text-xl font-bold mb-4">Services Offered</div>
+          <div class="flex flex-wrap -mx-3 mb-6">
+            <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+              <label class="roast-checkbox-container flex items-center">
+                <span class="font-sans-lato text-base">This company roasts its own coffee</span>
+                <input type="checkbox" v-model="form.roaster"> <span class="roast-checkmark"></span>
+              </label>
+            </div>
+            <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+              <label class="roast-checkbox-container flex items-center">
+                <span class="font-sans-lato text-base">Coffee is available via subscription.</span>
+                <input type="checkbox" v-model="form.subscription"> <span class="roast-checkmark"></span>
+              </label>
             </div>
           </div>
 
@@ -600,7 +599,7 @@ export default {
 
   async asyncData( ctx ) {
     return {
-      company: await ctx.app.$api.companies.show( ctx.params.slug )
+      company: await ctx.app.$api.companies.show( ctx.params.company )
     }
   },
 
@@ -630,7 +629,7 @@ export default {
         this.validations.state = true;
       }
 
-      if ( this.form.zip == '' ) {
+      if ( this.form.zip == '' || parseInt( this.form.zip ) != this.form.zip ) {
         this.validations.zip = false;
       } else {
         this.validations.zip = true;
@@ -704,12 +703,13 @@ export default {
     async updateCompany() {
       if ( this.validateCompany() ) {
         let formData = this.transformToFormData( this.form );
+
         await this.$api.companies.update( this.company.slug, formData )
-            .then( function( response ) {
-              this.$router.push({
+          .then( function( response ) {
+            this.$router.push({
                 path: `/companies/${ this.company.slug }`
-              })
-            }.bind( this ) )
+            })
+          }.bind( this ) );
       }
     },
 

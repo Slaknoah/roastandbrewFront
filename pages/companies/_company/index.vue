@@ -51,8 +51,60 @@
         </div>
       </div>
 
-      <div class="companies-list mt-4 flex justify-between flex-wrap overflow-x-auto pt-2 px-4 sm:px-6 lg:flex-wrap">
+      <div class="">
+        <div class="mt-10 px-4">
+          <div class="text-3xl font-bold text-black mb-2">Description</div>
+          <div>
+            {{ company.description }}
+          </div>
+        </div>
 
+        <div class="mt-10 px-4">
+          <div class="text-3xl font-bold text-black mb-4">Services</div>
+          <div class="flex flex-col w-full md:flex-row">
+            <div class="flex items-start w-full md:w-1/2 lg:w-1/3" v-if="company.roaster">
+              <img src="/img/icons/coffee-bag.svg" class="mr-5">
+              <div class="flex flex-col">
+                <span class="font-bold text-base leading-none">Roaster</span>
+                <span class="text-base text-gray-600">This company roasts its own coffee.</span>
+              </div>
+            </div>
+
+            <div class="flex items-start mt-4 w-full md:mt-0 md:w-1/2 lg:w-1/3" v-if="company.subscription">
+              <img src="/img/icons/subscription.svg" class="mr-5">
+              <div class="flex flex-col">
+                <span class="font-bold text-base leading-none">Subscription available</span>
+                <span class="text-base text-gray-600">Check their website for subscription information.</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="mt-10 px-4">
+          <div class="text-3xl font-bold text-black mb-2">
+            Cafes
+            <nuxt-link :to="'/companies/'+company.slug+'/cafes/new'" class="text-green-600 font-bold text-base ml-1">Add Cafe →</nuxt-link>
+          </div>
+          <div class="flex justify-between flex-wrap overflow-x-auto pt-2 lg:flex-wrap">
+            <nuxt-link v-for="cafe in cafes"
+                      :key="cafe.id"
+                      :to="'/companies/'+company.slug+'/cafes/'+cafe.slug"
+                      class="flex-grow-0 flex-shrink-0 mb-5 cursor-pointer w-full sm:w-48 md:w-56.25">
+
+              <div class="bg-white border-b-2 border-gray-200 rounded-15" style="box-shadow: rgba(0, 0, 0, 0.21) 0px 2px 9px 0px;">
+                <div class="block w-full bg-center bg-cover rounded-t-15 h-32 md:h-48" :style="'background-image: url(' + cafe.primary_image_url + ');'">
+                </div>
+                <div class="flex flex-col border-t border-lightBlueBorder py-5 px-4">
+                  <span class="font-bold text-base w-full truncate">{{ cafe.location_name }}</span>
+                  <div class="flex">
+                    <span class="text-xs text-textGray">{{ `${ cafe.city }, ${ cafe.country }`  }}</span>
+                  </div>
+                </div>
+              </div>
+
+            </nuxt-link>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -63,7 +115,8 @@ export default {
   layout: 'App',
   async asyncData( ctx ) {
     return {
-      company: await ctx.app.$api.companies.show( ctx.params.slug )
+      company: await ctx.app.$api.companies.show( ctx.params.company ),
+      cafes: await ctx.app.$api.cafes.index( ctx.params.company )
     }
   },
   methods: {

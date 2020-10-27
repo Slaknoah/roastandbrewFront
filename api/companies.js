@@ -42,11 +42,13 @@ export default $axios => ({
 
   async update( slug, company ) {
     try {
-      return await $axios.$post( `/api/v1/companies/${slug}`, company, {
+      const response = await $axios.$post( `/api/v1/companies/${slug}`, company, {
         'Content-Type': 'multipart/form-data'
-      });
-    } catch ( err ) {
+      })
 
+      return response;
+    } catch( err ) {
+      return err.response;
     }
   }
 })

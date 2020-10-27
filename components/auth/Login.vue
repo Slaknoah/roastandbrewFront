@@ -16,7 +16,7 @@
                 placeholder="example@mail.com"
                 v-model="form.email">
           <p class="text-red-500 text-xs italic" v-show="!validations.email.valid">
-            {{validations.email.message}}
+            {{ validations.email.message }}
           </p>
         </div>
 

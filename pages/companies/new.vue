@@ -1,5 +1,8 @@
 <template>
   <div>
+    <div v-show="processing" class="z-modal fixed bg-opacity-75 bg-white top-0 right-0 left-0 bottom-0 flex items-center justify-center">
+        <img src="/img/ui/loader.svg"/>
+    </div>
     <div class="flex flex-col pb-10 pt-10 w-full mx-auto max-w-screen-lg">
       <div class="px-4 sm:px-6 flex items-center justify-between">
         <h1 class="text-2xl font-bold leading-7 text-gray-900 sm:text-3xl sm:leading-9 sm:truncate">
@@ -8,7 +11,7 @@
       </div>
 
       <div class="mt-4 flex justify-between flex-wrap overflow-x-auto pt-2 px-4 sm:px-6 lg:flex-wrap">
-        <form class="w-full mx-auto">
+        <form class="w-full mx-auto sm:border border-darkGrayBorder md:rounded-lg mt-7.5 sm:p-10">
           <div class="flex flex-wrap -mx-3 mb-6">
             <div class="w-full px-3">
               <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-name">
@@ -77,51 +80,6 @@
           </div>
 
           <div class="flex flex-wrap -mx-3 mb-6">
-            <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
-              <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-address">
-                Address
-              </label>
-              <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded
-                              py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                      id="grid-address"
-                      type="text"
-                      :class="{ 'border-red-500': !validations.address }"
-                      v-model="form.address"
-                      placeholder="711-2880 Nulla St.">
-            </div>
-            <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
-              <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-roaster">
-                Are you a roaster?
-              </label>
-              <div class="relative">
-                <select class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700
-                                py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                        id="grid-roaster"
-                        v-model="form.roaster">
-                  <option value="1">Yes</option>
-                  <option value="0">No</option>
-                </select>
-                <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-                  <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                    <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/>
-                  </svg>
-                </div>
-              </div>
-            </div>
-            <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
-              <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-website">
-                Website
-              </label>
-              <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded
-                              py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                      id="grid-website"
-                      type="text"
-                      v-model="form.website"
-                      placeholder="https://voch-vandervort.com">
-            </div>
-          </div>
-
-          <div class="flex flex-wrap -mx-3 mb-6">
             <div class="w-full px-3">
               <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-description">
                 Description
@@ -136,6 +94,7 @@
             </div>
           </div>
 
+          <div class="text-gray-700 text-xl font-bold mb-2">Location</div>
           <div class="flex flex-wrap -mx-3 mb-6">
             <div class="w-full md:w-1/3 px-3 mb-6 md:mb-2">
               <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-state">
@@ -418,6 +377,7 @@
                       v-model="form.city"
                       placeholder="Albuquerque">
             </div>
+
             <div class="w-full md:w-1/3 px-3 mb-6 md:mb-2" v-show="form.country == 'US'">
               <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-state">
                 State
@@ -487,6 +447,20 @@
                 </div>
               </div>
             </div>
+
+            <div class="w-full md:w-1/3 px-3 mb-6 md:mb-2">
+              <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-address">
+                Address
+              </label>
+              <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded
+                              py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                      id="grid-address"
+                      type="text"
+                      :class="{ 'border-red-500': !validations.address }"
+                      v-model="form.address"
+                      placeholder="711-2880 Nulla St.">
+            </div>
+
             <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
               <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-zip">
                 Zip
@@ -501,7 +475,19 @@
             </div>
           </div>
 
+          <div class="text-gray-700 text-xl font-bold mb-2">Online Presence</div>
           <div class="flex flex-wrap -mx-3 mb-6">
+            <div class="w-full md:w-1/3 px-3 mb-6 md:mb-2">
+              <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-website">
+                Website
+              </label>
+              <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded
+                              py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                      id="grid-website"
+                      type="text"
+                      v-model="form.website"
+                      placeholder="https://voch-vandervort.com">
+            </div>
             <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
               <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-facebook">
                 Facebook Url
@@ -537,6 +523,22 @@
             </div>
           </div>
 
+          <div class="text-gray-700 text-xl font-bold mb-4">Services Offered</div>
+          <div class="flex flex-wrap -mx-3 mb-6">
+            <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+              <label class="roast-checkbox-container flex items-center">
+                <span class="font-sans-lato text-base">This company roasts its own coffee</span>
+                <input type="checkbox" v-model="form.roaster"> <span class="roast-checkmark"></span>
+              </label>
+            </div>
+            <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+              <label class="roast-checkbox-container flex items-center">
+                <span class="font-sans-lato text-base">Coffee is available via subscription.</span>
+                <input type="checkbox" v-model="form.subscription"> <span class="roast-checkmark"></span>
+              </label>
+            </div>
+          </div>
+
           <button type="button"
                   class="float-right inline-flex items-center px-4 py-2 border border-transparent text-sm leading-5
                           font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none
@@ -561,6 +563,8 @@ export default {
   middleware: 'auth',
   data() {
     return {
+      processing: false,
+
       logoPreview: '',
       showLogoPreview: false,
 
@@ -669,12 +673,14 @@ export default {
     },
 
     handleCompanyHeaderUpload() {
+      this.processing = true;
       this.form.header = this.$refs.headerFile.files;
       let reader = new FileReader();
 
       reader.addEventListener( 'load', function() {
         this.showHeaderPreview = true;
         this.headerPreview = reader.result;
+        this.processing = false;
       }.bind( this ), false );
 
       if ( this.form.header ) {
@@ -691,11 +697,14 @@ export default {
     },
 
     async saveCompany() {
+      this.processing = true;
+
       if ( this.validateNewCompany() ) {
         try {
           let formData = this.transformToFormData( this.form );
           await this.$api.companies.store( formData )
             .then( function( company ) {
+                this.processing = false;
                 this.$router.push({
                   path: `/companies/${ company.slug }`
                 });
@@ -703,6 +712,8 @@ export default {
         } catch( error ) {
           console.log( error );
         }
+      } else {
+        this.processing = false;
       }
     },
 
