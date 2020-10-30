@@ -11,9 +11,9 @@
               {{ company.name }}
             </h1>
             <div class="mt-1 flex flex-col sm:mt-0 sm:flex-row sm:flex-wrap">
-              <div class="mt-2 flex items-center text-sm leading-5 text-gray-500 sm:mr-6">
+              <div class="mt-2 flex items-center text-sm leading-5 text-gray-500 sm:mr-6" v-if="company.cafes_count">
                 <svg class="flex-shrink-0 mr-1 h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
-                2 Cafes
+                {{ company.cafes_count }} Cafes
               </div>
               <div class="mt-2 flex items-center text-sm leading-5 text-gray-500 sm:mr-6" v-if="company.roaster">
                 <svg class="flex-shrink-0 mr-1 h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"></path></svg>
@@ -83,13 +83,15 @@
         <div class="mt-10 px-4">
           <div class="text-3xl font-bold text-black mb-2">
             Cafes
-            <nuxt-link :to="'/companies/'+company.slug+'/cafes/new'" class="text-green-600 font-bold text-base ml-1">Add Cafe →</nuxt-link>
+            <nuxt-link :to="'/companies/'+company.slug+'/cafes/new'"
+                      class="text-green-600 font-bold text-base ml-1"
+                      v-if="$auth.loggedIn">Add Cafe →</nuxt-link>
           </div>
-          <div class="flex justify-between flex-wrap overflow-x-auto pt-2 lg:flex-wrap">
+          <div class="flex justify-start flex-wrap overflow-x-auto pt-2 lg:flex-wrap">
             <nuxt-link v-for="cafe in cafes"
                       :key="cafe.id"
                       :to="'/companies/'+company.slug+'/cafes/'+cafe.slug"
-                      class="flex-grow-0 flex-shrink-0 mb-5 cursor-pointer w-full sm:w-48 md:w-56.25">
+                      class="flex-grow-0 flex-shrink-0 mb-5 mr-4 cursor-pointer w-full sm:w-48 md:w-56.25">
 
               <div class="bg-white border-b-2 border-gray-200 rounded-15" style="box-shadow: rgba(0, 0, 0, 0.21) 0px 2px 9px 0px;">
                 <div class="block w-full bg-center bg-cover rounded-t-15 h-32 md:h-48" :style="'background-image: url(' + cafe.primary_image_url + ');'">
@@ -133,3 +135,10 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+    input[type="file"]{
+        position: absolute;
+        top: -5000px;
+    }
+</style>

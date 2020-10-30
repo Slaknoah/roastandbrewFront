@@ -18,7 +18,7 @@ export default $axios => ({
 
   async store ( company, cafe ) {
     try {
-      return await $axios.$get( '/api/v1/companies/' + company + '/cafes', cafe , {
+      return await $axios.$post( '/api/v1/companies/' + company + '/cafes', cafe , {
         headers: {
           'Content-Type': 'multipart/form-data'
         }
@@ -30,7 +30,7 @@ export default $axios => ({
 
   async update ( company, cafe, updates ) {
     try {
-      return await $axios.$get( '/api/v1/companies/' + company + '/cafes/' + cafe, updates, {
+      return await $axios.$post( '/api/v1/companies/' + company + '/cafes/' + cafe, updates, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }

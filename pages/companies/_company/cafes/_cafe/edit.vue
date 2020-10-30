@@ -12,8 +12,8 @@
           <input class="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3
                           leading-tight focus:outline-none focus:bg-white"
                   id="grid-company-name"
-                  :value="company.name"
                   type="text"
+                  :value="company.name"
                   disabled
                   placeholder="Koch-Vandervort">
           <p class="text-md text-gray-700">If you want to edit the company information,
@@ -482,8 +482,8 @@
                 <span class="font-sans-lato text-base capitalize">{{ brew_method.method }}</span>
                 <input type="checkbox"
                       :value="brew_method.id"
-                      @change="handleBrewMethod( $event, brew_method.id )"
-                      v-model="form.brew_methods">
+                      v-model="form.brew_methods"
+                      @change="handleBrewMethod( $event, brew_method.id )">
                 <span class="roast-checkmark"></span>
               </label>
             </div>
@@ -493,13 +493,13 @@
                   class="float-right inline-flex items-center px-4 py-2 border border-transparent text-sm leading-5
                           font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none
                           focus:shadow-outline-indigo focus:border-indigo-700 active:bg-indigo-700 transition duration-150 ease-in-out"
-                  @click.prevent="addCafe">
+                  @click.prevent="updateCafe">
             <svg class="-ml-1 mr-2 h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
               <path fill-rule="evenodd"
                     d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
                     clip-rule="evenodd" />
             </svg>
-            Save
+            Update
           </button>
         </form>
       </div>
@@ -507,18 +507,20 @@
   </div>
 </template>
 
+
 <script>
 export default {
   layout: 'App',
   middleware: 'auth',
   async asyncData( ctx ) {
     return {
-      company: await ctx.app.$api.companies.show( ctx.params.company ),
+      cafe: await ctx.app.$api.cafes.show( ctx.params.company, ctx.params.cafe ),
       brew_methods: await ctx.app.$api.brew_methods.index()
     }
   },
   data() {
     return {
+      company: {},
       processing: false,
 
       showCafeImagePreview: false,
@@ -559,24 +561,40 @@ export default {
         }
       }
     },
-    async addCafe() {
-      this.processing = true;
-      if( this.validateNewCafe() ) {
-        let cafeFormData = this.transformToFormData( this.form );
 
-        const newCafe = await this.$api.cafes.store( this.company.slug, cafeFormData )
-                          .then( function( response ) {
-                            this.processing = false;
-                            this.$router.push({
-                              path: '/companies/' + this.company.slug + '/cafes/' + response.slug
-                            })
-                          }.bind( this ) );
-      } else {
-        this.processing = false;
+    hydrateForm() {
+      this.company              = this.cafe.company;
+      this.form.location_name   = this.cafe.location_name;
+      this.form.description     = this.cafe.description;
+      this.form.country         = this.cafe.country;
+      this.form.city            = this.cafe.city;
+      this.form.state           = this.cafe.state;
+      this.form.address         = this.cafe.address;
+      this.form.zip             = this.cafe.zip;
+      this.form.matcha          = this.cafe.matcha;
+      this.form.tea             = this.cafe.tea;
+      this.form.brew_methods    = this.cafe.brew_methods.map( brew_method => brew_method.id );
+
+      if ( this.cafe.primary_image_url ) {
+        this.showCafeImagePreview = true;
+        this.cafeImagePreview     = this.cafe.primary_image_url;
       }
     },
 
-    validateNewCafe() {
+    async updateCafe() {
+      if( this.validateCafe() ) {
+        let cafeFormData = this.transformToFormData( this.form );
+
+        await this.$api.cafes.update( this.company.slug, this.cafe.slug, cafeFormData )
+            .then( function() {
+              this.$router.push({
+                path: '/companies/' +  this.company.slug + '/cafes/' + this.cafe.slug
+              })
+            }.bind( this ));
+      }
+    },
+
+    validateCafe() {
       let validForm = true;
 
       if( this.form.location_name == '' ) {
@@ -584,13 +602,6 @@ export default {
         validForm = false;
       } else {
         this.validations.location_name = true;
-      }
-
-      if( this.form.primary_image == '' ) {
-        this.validations.primary_image = false;
-        validForm = false;
-      } else {
-        this.validations.primary_image = true;
       }
 
       if( this.form.country == '' ) {
@@ -654,19 +665,27 @@ export default {
       let fileKeys = [ 'primary_image' ]
       let formData = new FormData();
 
+      formData.append( '_method', 'PUT' );
+
       for ( let [ key, value ] of Object.entries( fields ) ) {
         if( fileKeys.indexOf( key ) > -1 ) {
           if ( value !== '' ) formData.append( key, value[0] );
         } else {
           if( typeof value === 'boolean' ) {
             value = value ? 1 : 0;
+          } else if( value === null ) {
+            value = '';
           }
+
           formData.append( key, value );
         }
       }
 
       return formData;
     }
+  },
+  created() {
+    this.hydrateForm();
   }
 }
 </script>

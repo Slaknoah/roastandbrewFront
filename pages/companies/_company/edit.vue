@@ -751,13 +751,13 @@ export default {
             formData.append( key, value[0] );
           }
         } else {
-          if ( typeof(value) === "boolean" ) {
+          if( typeof value === 'boolean' ) {
             value = value ? 1 : 0;
+          } else if( value === null ) {
+            value = '';
           }
 
-          if ( value != null ) {
-            formData.append( key, value );
-          }
+          formData.append( key, value );
         }
       }
 

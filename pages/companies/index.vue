@@ -27,7 +27,7 @@
               <div class="flex">
                 <span class="text-xs text-textGray">{{ `${ company.city }, ${ company.country }`  }}</span>
               </div>
-              <span class="text-xs italic text-textGray">2 cafes</span>
+              <span class="text-xs italic text-textGray" v-show="company.cafes_count">{{ company.cafes_count}} cafes</span>
             </div>
           </div>
 
