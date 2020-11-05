@@ -7,9 +7,14 @@
     "build": "nuxt build",
     "start": "nuxt start",
     "generate": "nuxt generate",
-    "test": "jest"
+    "test": "jest",
+    "mobile": "ROAST_PLATFORM=mobile nuxt generate --spa --fail-on-error"
   },
   "dependencies": {
+    "@capacitor/android": "^2.4.2",
+    "@capacitor/cli": "^2.4.2",
+    "@capacitor/core": "^2.4.2",
+    "@capacitor/ios": "^2.4.2",
     "@nuxt/content": "^1.8.1",
     "@nuxtjs/auth-next": "^5.0.0-1595976864.509d9d6",
     "@nuxtjs/axios": "^5.12.2",

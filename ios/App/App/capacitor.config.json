@@ -1,0 +1,10 @@
+{
+  "npmClient": "npm",
+  "webDir": "dist",
+  "plugins": {},
+  "server": {
+    "iosScheme": "roastandbrew"
+  },
+  "appId": "coffeeios.roastandbrew.mobile",
+  "appName": "RoastAndBrew"
+}

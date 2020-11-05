@@ -1,4 +1,15 @@
+import fs from 'fs';
+import path from 'path';
+
+require('dotenv').config({
+  path: process.env.ROAST_PLATFORM == 'mobile'
+            ? '.env.mobile-' + ( process.argv[process.argv.length - 1].replace('--', '') )
+            : '.env'
+});
+
 export default {
+  mode: 'universal',
+
   server: {
     port: 4000,
   },
@@ -8,15 +19,23 @@ export default {
 
   // Global page headers (https://go.nuxtjs.dev/config-head)
   head: {
-    title: 'RoastAndBrew',
+    title: 'ROAST - Discover your next favourite cup of coffee.',
     meta: [
       { charset: 'utf-8' },
-      { name: 'viewport', content: 'width=device-width, initial-scale=1' },
+      { name: 'viewport', content: 'initial-scale=1, user-scalable=no, width=device-width, height=device-height, viewport-fit=cover' },
       { hid: 'description', name: 'description', content: '' }
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
     ]
+  },
+
+  /**
+   * Customize the progress bar color
+   */
+  loading: false,
+  pageTransition: {
+    mode: ''
   },
 
   // Global CSS (https://go.nuxtjs.dev/config-css)
@@ -50,13 +69,17 @@ export default {
 
   // Axios module configuration (https://go.nuxtjs.dev/config-axios)
   axios: {
-    baseURL: 'http://localhost:80',
+    baseURL: process.env.API_BASE_URL,
     credentials: true
+  },
+
+  env: {
+    mobile: process.env.ROAST_PLATFORM == 'mobile' ? true : false
   },
 
   auth: {
     redirect:{
-      login: '/',
+      login: '/?login=true',
       home: false
     },
     strategies: {
@@ -83,5 +106,11 @@ export default {
 
   // Build Configuration (https://go.nuxtjs.dev/config-build)
   build: {
+    publicPath: '/nuxt/',
+
+    /*
+    ** Extend webpack config here
+    */
+   extend(config, ctx) {}
   }
 }

@@ -3,7 +3,7 @@ export default $axios => ({
     try {
       return await $axios.$get( '/api/v1/companies/' + company + '/cafes' );
     } catch ( err ) {
-      // console.log( err );
+      throw err;
     }
   },
 
@@ -12,7 +12,7 @@ export default $axios => ({
     try {
       return await $axios.$get( '/api/v1/companies/' + company + '/cafes/' + cafe );
     } catch ( err ) {
-      // console.log( err );
+      throw err;
     }
   },
 
@@ -24,7 +24,7 @@ export default $axios => ({
         }
       } );
     } catch ( err ) {
-      console.log( err );
+      throw err;
     }
   },
 
@@ -36,7 +36,7 @@ export default $axios => ({
         }
       } );
     } catch ( err ) {
-      console.log( err );
+      throw err;
     }
   },
 
@@ -44,7 +44,7 @@ export default $axios => ({
     try {
       return await $axios.$delete( '/api/v1/companies/' + company + '/cafes/' + cafe );
     } catch ( err ) {
-      console.log( err );
+      throw err;
     }
   }
 });

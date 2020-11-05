@@ -34,20 +34,26 @@
           </div>
         </div>
 
-        <div class="mt-5 flex lg:mt-0 lg:ml-4 lg:flex-row flex-col" v-if="$auth.loggedIn">
-          <span class="shadow-sm rounded-md lg:mr-2 lg:mb-0 mb-2">
+        <div class="mt-5 flex lg:mt-0 lg:ml-4 lg:flex-row flex-col">
+          <span class="shadow-sm rounded-md lg:mr-2 lg:mb-0 mb-2" v-if="$auth.loggedIn">
             <nuxt-link :to="'/companies/' + company.slug + '/edit'" class="inline-flex items-center px-4 py-2 border border-gray-300 text-sm leading-5 font-medium rounded-md text-gray-700 bg-white hover:text-gray-500 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 active:text-gray-800 active:bg-gray-50 transition duration-150 ease-in-out">
               <svg class="sm:-ml-1 sm:mr-2 h-5 w-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg>
               <span class="hidden sm:block">Edit company</span>
             </nuxt-link>
           </span>
 
-          <span class="shadow-sm rounded-md">
+          <span class="shadow-sm rounded-md" v-if="$auth.loggedIn">
             <a @click.prevent="deleteCompany" href="#" class="inline-flex items-center px-4 py-2 border border-red-400 text-sm leading-5 font-medium rounded-md text-gray-700 bg-white hover:border-red-500 focus:outline-none focus:shadow-outline-red focus:border-red-300 active:text-red-800 active:bg-red-50 transition duration-150 ease-in-out">
               <svg class="sm:-ml-1 sm:mr-2 h-5 w-5 text-red-400 hover:text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
               <span class="hidden sm:block text-red-400 hover:text-red-500">Delete company</span>
             </a>
           </span>
+
+          <div class="flex flex-col items-center mb-1 w-24">
+            <img src="/img/ui/like.svg" class="cursor-pointer" v-if="!liked" @click="likeCompany">
+            <img src="/img/ui/liked.svg" class="cursor-pointer" v-else @click="likeCompany">
+            <span class="text-base text-gray-500" v-if="likes">{{ likes }} {{ ( likes > 1) ? 'likes' : 'like' }}</span>
+          </div>
         </div>
       </div>
 
@@ -83,6 +89,9 @@
         <div class="mt-10 px-4">
           <div class="text-3xl font-bold text-black mb-2">
             Cafes
+            <a class="text-green-600 font-bold text-base ml-1"
+              @click="login('navigate-to-add-cafe')"
+              v-if="!$auth.loggedIn">Add Cafe →</a>
             <nuxt-link :to="'/companies/'+company.slug+'/cafes/new'"
                       class="text-green-600 font-bold text-base ml-1"
                       v-if="$auth.loggedIn">Add Cafe →</nuxt-link>
@@ -113,13 +122,38 @@
 </template>
 
 <script>
+import { EventBus } from '@/event-bus';
+import { mapState } from 'vuex';
+
 export default {
   layout: 'App',
-  async asyncData( ctx ) {
-    return {
-      company: await ctx.app.$api.companies.show( ctx.params.company ),
-      cafes: await ctx.app.$api.cafes.index( ctx.params.company )
+  async asyncData( { app, params, error } ) {
+    try {
+      const [ company, cafes ] = await Promise.all([
+        app.$api.companies.show( params.company ),
+        app.$api.cafes.index( params.company )
+      ]);
+
+      return {
+        company: company,
+        cafes: cafes
+      }
+    } catch( e ) {
+      error( {
+        statusCode: 404, message: ''
+      } );
     }
+  },
+  data() {
+    return {
+      likes: 0,
+      liked: false,
+    }
+  },
+  computed: {
+    ...mapState('pendingActions', {
+      'preAuthAction': state => state.preAuthAction
+    })
   },
   methods: {
     async deleteCompany() {
@@ -131,14 +165,71 @@ export default {
             } );
           }.bind( this ) );
       }
+
+    },
+
+    setUpLikes() {
+      if ( this.$auth.loggedIn ) {
+        this.liked = this.company.liked;
+      }
+
+      this.likes = this.company.likes_count;
+    },
+
+    async likeCompany() {
+      if ( this.$auth.loggedIn ) {
+        let toggleLike = await this.$api.companies.like( this.$route.params.company );
+        this.liked = toggleLike.status;
+        this.likes = toggleLike.likes;
+      } else {
+        this.$store.commit('pendingActions/setPreAuthAction', {
+          action: 'like-company',
+          company: this.$route.params.company
+        } );
+
+        EventBus.$emit('prompt-login');
+      }
+    },
+
+    login( preAuthAction = '' ) {
+      if (preAuthAction != '') {
+        switch( preAuthAction ) {
+          case 'navigate-to-add-cafe':
+            this.$store.commit( 'pendingActions/setPreAuthAction', {
+              action: 'navigate',
+              route: `/companies/${this.company.slug}/cafes/new`
+            })
+          break;
+        }
+      }
+
+      EventBus.$emit('prompt-login');
+    },
+
+    runPreAuthAction() {
+      switch ( this.preAuthAction.action ) {
+        case 'like-company':
+          this.likeCompany();
+        break;
+      }
+
+      this.$store.commit( 'pendingActions/setPreAuthAction', {} );
     }
+  },
+  async mounted() {
+    EventBus.$off('roast-login');
+
+    EventBus.$on('roast-login', function() {
+      this.runPreAuthAction();
+    }.bind(this));
+    this.setUpLikes();
   }
 }
 </script>
 
 <style scoped>
-    input[type="file"]{
-        position: absolute;
-        top: -5000px;
-    }
+  input[type="file"]{
+      position: absolute;
+      top: -5000px;
+  }
 </style>

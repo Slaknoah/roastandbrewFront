@@ -5,10 +5,7 @@ export default $axios => ({
         params: params
       });
     } catch ( err ) {
-      console.log( err );
-      if ( err ) {
-
-      }
+      throw err;
     }
   },
 
@@ -20,7 +17,7 @@ export default $axios => ({
         }
       } );
     } catch ( err ) {
-
+      throw err;
     }
   },
 
@@ -28,7 +25,7 @@ export default $axios => ({
     try {
       return await $axios.$get( `/api/v1/companies/${slug}` );
     } catch ( err ) {
-      console.log( err );
+      throw err;
     }
   },
 
@@ -36,7 +33,7 @@ export default $axios => ({
     try {
       return await $axios.$delete( `/api/v1/companies/${slug}` );
     } catch ( err ) {
-      console.log( err );
+      throw err;
     }
   },
 
@@ -48,7 +45,17 @@ export default $axios => ({
 
       return response;
     } catch( err ) {
-      return err.response;
+      throw err;
+    }
+  },
+
+  async like( slug ) {
+    try {
+      const response = await $axios.$put( `/api/v1/companies/${slug}/like` );
+
+      return response;
+    } catch ( err ) {
+      throw err;
     }
   }
 })

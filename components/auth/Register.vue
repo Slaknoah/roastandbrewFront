@@ -48,27 +48,31 @@
             {{validations.password.message}}
           </p>
 
-          <div>
-            <span v-bind:class="{
-                        'red' : passwordStrength.score <= 1,
-                        'orange' : passwordStrength.score == 2,
-                        'yellow' : passwordStrength.score == 3,
-                        'green' : passwordStrength.score == 4
+          <div class="flex items-center mt-1">
+            <span class="rounded-full mr-1 w-12 h-1 block"
+                  v-bind:class="{
+                        'bg-red-500' : passwordStrength.score <= 1,
+                        'bg-orange-500' : passwordStrength.score == 2,
+                        'bg-yellow-500' : passwordStrength.score == 3,
+                        'bg-green-500' : passwordStrength.score == 4
                     }"></span>
-            <span v-bind:class="{
-                        'grey' : passwordStrength.score <= 1,
-                        'orange' : passwordStrength.score == 2,
-                        'yellow' : passwordStrength.score == 3,
-                        'green' : passwordStrength.score == 4
+            <span class="rounded-full mr-1 w-12 h-1 block"
+                    v-bind:class="{
+                        'bg-gray-500' : passwordStrength.score <= 1,
+                        'bg-orange-500' : passwordStrength.score == 2,
+                        'bg-yellow-500' : passwordStrength.score == 3,
+                        'bg-green-500' : passwordStrength.score == 4
                     }"></span>
-            <span v-bind:class="{
-                        'grey' : passwordStrength.score <= 2,
-                        'yellow' : passwordStrength.score == 3,
-                        'green' : passwordStrength.score == 4
+            <span class="rounded-full mr-1 w-12 h-1 block"
+                    v-bind:class="{
+                        'bg-gray-500' : passwordStrength.score <= 2,
+                        'bg-yellow-500' : passwordStrength.score == 3,
+                        'bg-green-500' : passwordStrength.score == 4
                     }"></span>
-            <span v-bind:class="{
-                        'grey' : passwordStrength.score <= 3,
-                        'green' : passwordStrength.score == 4
+            <span class="rounded-full mr-1 w-12 h-1 block"
+                    v-bind:class="{
+                        'bg-gray-500' : passwordStrength.score <= 3,
+                        'bg-green-500' : passwordStrength.score == 4
                     }"></span>
           </div>
         </div>
@@ -151,11 +155,11 @@ export default {
   },
   methods: {
     closeRegister() {
-      EventBus.$emit('registerClose');
+      EventBus.$emit('hide-register');
     },
     openLogin() {
       this.closeRegister();
-      EventBus.$emit('loginClicked')
+      EventBus.$emit('prompt-login')
     },
     register() {
       if ( this.validateRegistration() ) {
@@ -167,6 +171,7 @@ export default {
                     .then( function() {
                       // Handle authentication success
                       this.closeRegister();
+                      EventBus.$emit('roast-login');
                     }.bind(this) )
                 }.bind(this)
               )
@@ -179,9 +184,12 @@ export default {
       }
     },
     validateRegistration() {
+      let formValid = true;
+
       if (this.form.name == '') {
         this.validations.name.valid = false;
         this.validations.name.message = 'A name is required on this field';
+        formValid = false;
       } else {
         this.validations.name.valid = true;
         this.validations.name.message = '';
@@ -190,6 +198,7 @@ export default {
       if (this.form.email == '' || !this.form.email.match(/^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)) {
         this.validations.email.valid = false;
         this.validations.email.message = 'A valid email address has to be entered to register user';
+        formValid = false;
       } else {
         this.validations.email.valid = true;
         this.validations.email.message = '';
@@ -198,6 +207,7 @@ export default {
       if (this.form.password == '' || this.passwordStrength.score < 4) {
         this.validations.password.valid = false;
         this.validations.password.message = 'A secure password must be entered';
+        formValid = false;
       } else {
         this.validations.password.valid = true;
         this.validations.password.message = '';
@@ -206,18 +216,14 @@ export default {
       if (this.form.confirm_password == '' || this.form.confirm_password != this.form.password) {
         this.validations.confirm_password.valid = false;
         this.validations.confirm_password.message = 'Your passwords must match';
+        formValid = false;
       } else {
         this.validations.confirm_password.valid = true;
         this.validations.confirm_password.message = '';
       }
 
 
-      return (
-        this.validations.name &&
-        this.validations.email &&
-        this.validations.password &&
-        this.validations.confirm_password
-      ) ? true : false;
+      return formValid;
     }
   },
   computed: {

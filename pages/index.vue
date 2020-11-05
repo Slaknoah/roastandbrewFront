@@ -13,7 +13,8 @@
 <script>
 export default {
   layout: 'App',
-  middleware: ['auth', 'verified'],
+  middleware: ['auth'],
+  // middleware: ['auth', 'verified'],
 }
 </script>
 

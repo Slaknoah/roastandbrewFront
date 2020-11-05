@@ -178,7 +178,10 @@
               <div class="py-1 rounded-md bg-white shadow-xs" role="menu" aria-orientation="vertical" aria-labelledby="user-menu">
                 <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">Your Profile</a>
 
-                <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">Settings</a>
+                <nuxt-link v-if="$auth.user.permission == 'admin'"
+                          class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                          role="menuitem"
+                          to="/system-settings">System Settings</nuxt-link>
 
                 <a @click.prevent="logout" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">Sign out</a>
               </div>
@@ -326,10 +329,10 @@ export default {
       await this.$auth.logout();
     },
     openLogin() {
-      EventBus.$emit('loginClicked');
+      EventBus.$emit('prompt-login');
     },
     openRegister() {
-      EventBus.$emit('registerClicked');
+      EventBus.$emit('prompt-register');
     }
   },
   watch: {

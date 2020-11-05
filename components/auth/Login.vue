@@ -42,7 +42,7 @@
         <div class="flex items-center justify-between">
           <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
                   type="button"
-                  @click.prevent="login">
+                  v-on:click="login">
             Sign In
           </button>
           <a class="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800" href="#">
@@ -72,6 +72,7 @@
 <script>
 import { EventBus } from '@/event-bus';
 import BaseModal from '@/components/global/Modal/BaseModal';
+import { mapState } from 'vuex';
 
 export default {
   data() {
@@ -101,11 +102,11 @@ export default {
   },
   methods: {
     closeLogin() {
-      EventBus.$emit('loginClose');
+      EventBus.$emit('hide-login');
     },
     openRegister() {
       this.closeLogin();
-      EventBus.$emit('registerClicked')
+      EventBus.$emit('prompt-register')
     },
     validateLogin() {
       if ( this.form.email == '' || this.form.email.match(/^(([^<>()[\]\\.,;:\s@\"] +(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\. [0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+ [a-zA-Z]{2,}))$/) ) {
@@ -127,18 +128,35 @@ export default {
       return ( this.validations.email.valid && this.validations.password.valid ) ? true : false;
     },
 
+    runPreAuthAction() {
+      switch ( this.preAuthAction.action ) {
+        case 'navigate':
+          this.$router.push({
+            path: this.preAuthAction.route
+          })
+        break;
+      }
+
+      this.$store.commit( 'pendingActions/setPreAuthAction', {} );
+    },
+
     login() {
       if (this.validateLogin()) {
         this.$auth.loginWith('laravelSanctum', { data: this.form })
           .then( function () {
               // Handle successful login
               this.closeLogin();
+              this.runPreAuthAction();
+              EventBus.$emit('roast-login');
             }.bind(this)
           )
           .catch( function (error) {
+              console.log( error );
               // Handle login errors
               this.validations.invalidLogin.valid = false;
-              this.validations.invalidLogin.message = 'Invalid credentials, please try again!'
+              this.validations.invalidLogin.message = 'Invalid credentials, please try again!!'
+              this.validations.email.valid = false;
+              this.validations.password.valid = false;
             }.bind(this)
           );
       }
@@ -146,6 +164,11 @@ export default {
   },
   components: {
     BaseModal
+  },
+  computed: {
+    ...mapState('pendingActions', {
+      'preAuthAction': state => state.preAuthAction
+    })
   }
 }
 </script>

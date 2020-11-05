@@ -1,5 +1,5 @@
 <template>
-  <div id="app-layout" class="flex flex-col min-h-screen w-screen select-none">
+  <div id="app-layout" class="flex flex-col min-h-screen w-screen select-none safe-top safe-left safe-right safe-bottom">
     <app-header v-show="showHeader"/>
 
     <main>
@@ -45,7 +45,7 @@ export default {
     showFooter() {
       let pages = [];
 
-      return pages.indexOf(this.$route.name) == -1;
+      return process.env.mobile ? false : pages.indexOf(this.$route.name) == -1;
     },
     showHeader() {
       let pages = [];
@@ -53,14 +53,51 @@ export default {
       return pages.indexOf(this.$route.name) == -1;
     }
   },
+
+  beforeRouteEnter (to, from, next) {
+    if( to.query.login == 'true' )  {
+      EventBus.$emit('hide-register');
+      EventBus.$emit('prompt-login');
+    }
+
+    if( to.query.register == 'true' ) {
+      EventBus.$emit('hide-login');
+      EventBus.$$emit('prompt-register');
+    }
+
+    next();
+  },
+
+  watch: {
+    $route(to, from) {
+      if( to.query.login == 'true' ){
+        EventBus.$emit('prompt-login');
+      }
+
+      if( to.query.register == 'true' ){
+        EventBus.$emit('prompt-register');
+      }
+    }
+  },
+
   created() {
-    EventBus.$on('loginClicked', this.toggleLogin );
+    EventBus.$on('prompt-login', this.toggleLogin );
 
-    EventBus.$on('loginClose', this.toggleLogin );
+    EventBus.$on('hide-login', this.toggleLogin );
 
-    EventBus.$on('registerClicked', this.toggleRegister );
+    EventBus.$on('prompt-register', this.toggleRegister );
 
-    EventBus.$on('registerClose', this.toggleRegister );
+    EventBus.$on('hide-register', this.toggleRegister );
+  },
+
+  mounted() {
+    if( this.$route.query.login == 'true' ){
+      EventBus.$emit('prompt-login');
+    }
+
+    if( this.$route.query.register == 'true' ){
+      EventBus.$emit('prompt-register');
+    }
   }
 }
 </script>
