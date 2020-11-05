@@ -44,7 +44,11 @@ export default {
 
   // Plugins to run before rendering page (https://go.nuxtjs.dev/config-plugins)
   plugins: [
-    '~/plugins/roastAPI.js'
+    '~/plugins/roastAPI.js',
+    {
+      src: '~/plugins/secureStorage.js',
+      mode: 'client'
+    }
   ],
 
   // Auto import components (https://go.nuxtjs.dev/config-components)
@@ -83,6 +87,32 @@ export default {
       home: false
     },
     strategies: {
+      'local': {
+        user: {
+          property: false
+        },
+        token: {
+          property: 'token'
+        },
+        endpoints: {
+          login: {
+            url: '/api/v1/login',
+            method: 'post',
+            withCredentials: true,
+            headers: {
+              'Content-Type': 'application/json'
+            },
+          },
+          logout: {
+            url: '/api/v1/logout',
+            method: 'post'
+          },
+          user: {
+            url: '/api/v1/user',
+            method: 'get'
+          },
+        },
+      },
       'laravelSanctum': {
         provider: 'laravel/sanctum',
         url: process.env.API_BASE_URL,

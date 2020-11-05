@@ -142,23 +142,49 @@ export default {
 
     login() {
       if (this.validateLogin()) {
-        this.$auth.loginWith('laravelSanctum', { data: this.form })
-          .then( function () {
-              // Handle successful login
-              this.closeLogin();
-              this.runPreAuthAction();
-              EventBus.$emit('roast-login');
-            }.bind(this)
-          )
-          .catch( function (error) {
-              console.log( error );
-              // Handle login errors
-              this.validations.invalidLogin.valid = false;
-              this.validations.invalidLogin.message = 'Invalid credentials, please try again!!'
-              this.validations.email.valid = false;
-              this.validations.password.valid = false;
-            }.bind(this)
-          );
+
+        // Ensure right method is used depending on Platform
+        if ( process.env.mobile ) {
+          this.$auth.loginWith( 'local', { data: {
+                  email: this.form.email,
+                  password: this.form.password,
+                  device_name: 'Mobile App'
+                } } )
+                .then( function( response ) {
+                  this.$CapacitorSecureStorage.set({ key: 'roastAuthToken', value: response.data.token })
+                    .then( function( success ) {
+                      this.closeLogin();
+                      this.runPreAuthAction();
+                      EventBus.$emit('roast-login');
+                    }.bind(this) )
+                    .catch( function( error ) {
+                      console.log( error );
+                    });
+                }.bind( this ) )
+                .catch( function( error ) {
+                  this.validations.invalidLogin.valid = false;
+                  this.validations.invalidLogin.message = 'Invalid credentials, please try again!!'
+                  this.validations.email.valid = false;
+                  this.validations.password.valid = false;
+                })
+        } else {
+          this.$auth.loginWith('laravelSanctum', { data: this.form })
+            .then( function () {
+                // Handle successful login
+                this.closeLogin();
+                this.runPreAuthAction();
+                EventBus.$emit('roast-login');
+              }.bind(this)
+            )
+            .catch( function (error) {
+                // Handle login errors
+                this.validations.invalidLogin.valid = false;
+                this.validations.invalidLogin.message = 'Invalid credentials, please try again!!'
+                this.validations.email.valid = false;
+                this.validations.password.valid = false;
+              }.bind(this)
+            );
+        }
       }
     }
   },

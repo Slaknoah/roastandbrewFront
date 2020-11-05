@@ -3,7 +3,9 @@
   "webDir": "dist",
   "plugins": {},
   "server": {
-    "iosScheme": "roastandbrew"
+    "iosScheme": "roastandbrew",
+    "url": "http://192.168.0.103:4000",
+    "cleartext": true
   },
   "appId": "coffeeios.roastandbrew.mobile",
   "appName": "RoastAndBrew"

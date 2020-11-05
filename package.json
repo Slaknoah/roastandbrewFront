@@ -8,7 +8,8 @@
     "start": "nuxt start",
     "generate": "nuxt generate",
     "test": "jest",
-    "mobile": "ROAST_PLATFORM=mobile nuxt generate --spa --fail-on-error"
+    "mobile": "ROAST_PLATFORM=mobile nuxt generate --spa --fail-on-error",
+    "mobile-dev": "ROAST_PLATFORM=mobile nuxt --spa --fail-on-error"
   },
   "dependencies": {
     "@capacitor/android": "^2.4.2",
@@ -20,6 +21,7 @@
     "@nuxtjs/axios": "^5.12.2",
     "@nuxtjs/dotenv": "^1.4.1",
     "@tailwindcss/ui": "^0.6.2",
+    "capacitor-secure-storage-plugin": "^0.5.0",
     "core-js": "^3.6.5",
     "nuxt": "^2.14.5",
     "zxcvbn": "^4.4.2"
