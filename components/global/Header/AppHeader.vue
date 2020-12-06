@@ -140,16 +140,16 @@
           </div>
 
           <nuxt-link to="/companies" class="px-3 text-base leading-6 font-medium text-gray-500 hover:text-gray-900 focus:outline-none focus:text-gray-900 transition ease-in-out duration-150">
-            Companies
+            Компании
           </nuxt-link>
         </nav>
         <div class="hidden md:flex items-center justify-end space-x-8 md:flex-1 lg:w-0" v-if="!$auth.user">
           <a @click.prevent="openLogin" class="whitespace-no-wrap text-base leading-6 font-medium text-gray-500 hover:text-gray-900 focus:outline-none focus:text-gray-900">
-            Sign in
+            Войти
           </a>
           <span class="inline-flex rounded-md shadow-sm">
             <a @click="openRegister" class="whitespace-no-wrap inline-flex items-center justify-center px-4 py-2 border border-transparent text-base leading-6 font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-700 transition ease-in-out duration-150">
-              Sign up
+              Регистрация
             </a>
           </span>
         </div>
@@ -176,14 +176,14 @@
                       leave-to-class="transform opacity-0 scale-95">
             <div class="origin-top-right absolute right-0 mt-10 w-48 rounded-md shadow-lg" v-show="isUserMenuActive">
               <div class="py-1 rounded-md bg-white shadow-xs" role="menu" aria-orientation="vertical" aria-labelledby="user-menu">
-                <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">Your Profile</a>
+                <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">Профиль</a>
 
                 <nuxt-link v-if="$auth.user.permission == 'admin'"
                           class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                           role="menuitem"
                           to="/system-settings">System Settings</nuxt-link>
 
-                <a @click.prevent="logout" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">Sign out</a>
+                <a @click.prevent="logout" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">Выйти</a>
               </div>
             </div>
           </transition>
@@ -223,7 +223,7 @@
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
                     </svg>
                     <div class="text-base leading-6 font-medium text-gray-900">
-                      Companies
+                      Компании
                     </div>
                   </nuxt-link>
                   <a href="#" class="-m-3 p-3 flex items-center space-x-3 rounded-md hover:bg-gray-50 transition ease-in-out duration-150">
@@ -295,13 +295,13 @@
               <div class="space-y-6">
                 <span class="w-full flex rounded-md shadow-sm">
                   <a @click.prevent="openRegister" class="w-full flex items-center justify-center px-4 py-2 border border-transparent text-base leading-6 font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-700 transition ease-in-out duration-150">
-                    Sign up
+                    Регистрация
                   </a>
                 </span>
                 <p class="text-center text-base leading-6 font-medium text-gray-500">
                   Existing customer?
                   <a @click.prevent="openLogin" class="text-indigo-600 hover:text-indigo-500 transition ease-in-out duration-150">
-                    Sign in
+                    Войти
                   </a>
                 </p>
               </div>

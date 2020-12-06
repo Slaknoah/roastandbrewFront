@@ -3,11 +3,11 @@
     <div class="inline-block text-left overflow-hidden shadow-xl transform bg-white rounded-lg align-middle sm:max-w-sm w-full" role="dialog" aria-modal="true" aria-labelledby="modal-headline">
       <form class="px-8 pt-6 pb-8 mb-4">
         <h3 class="text-xl leading-6 font-medium text-gray-900 mb-3" id="modal-headline">
-          New Customer
+          Регистрация
         </h3>
         <div class="mb-4">
           <label class="block text-gray-700 text-sm font-bold mb-2" for="name">
-            Name
+            Имя
           </label>
           <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                 :class="{ 'border-red-500': !validations.name.valid }"
@@ -36,7 +36,7 @@
 
         <div class="mb-6">
           <label class="block text-gray-700 text-sm font-bold mb-2" for="password">
-            Password
+            Пароль
           </label>
           <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
                 :class="{ 'border-red-500': !validations.password.valid }"
@@ -79,7 +79,7 @@
 
         <div class="mb-6">
           <label class="block text-gray-700 text-sm font-bold mb-2" for="password">
-            Confirm password
+            Повторите пароль
           </label>
           <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
                 :class="{ 'border-red-500': !validations.confirm_password.valid }"
@@ -96,10 +96,10 @@
           <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mr-5"
                   type="button"
                   @click.prevent="register">
-            Sign Up
+            Регистрация
           </button>
           <a @click.prevent="openLogin" class="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800" href="#">
-            Have an account ? Login
+            Уже есть аккаунт ? Войти
           </a>
         </div>
       </form>

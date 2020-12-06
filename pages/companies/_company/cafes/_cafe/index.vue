@@ -22,14 +22,14 @@
           <span class="shadow-sm rounded-md lg:mr-2 lg:mb-0 mb-2">
             <nuxt-link :to="'/companies/' + cafe.company.slug + '/cafes/' + cafe.slug + '/edit'" class="inline-flex items-center px-4 py-2 border border-gray-300 text-sm leading-5 font-medium rounded-md text-gray-700 bg-white hover:text-gray-500 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 active:text-gray-800 active:bg-gray-50 transition duration-150 ease-in-out">
               <svg class="sm:-ml-1 sm:mr-2 h-5 w-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg>
-              <span class="hidden sm:block">Edit cafe</span>
+              <span class="hidden sm:block">Изменить</span>
             </nuxt-link>
           </span>
 
           <span class="shadow-sm rounded-md">
             <a @click.prevent="deleteCafe" href="#" class="inline-flex items-center px-4 py-2 border border-red-400 text-sm leading-5 font-medium rounded-md text-gray-700 bg-white hover:border-red-500 focus:outline-none focus:shadow-outline-red focus:border-red-300 active:text-red-800 active:bg-red-50 transition duration-150 ease-in-out">
               <svg class="sm:-ml-1 sm:mr-2 h-5 w-5 text-red-400 hover:text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
-              <span class="hidden sm:block text-red-400 hover:text-red-500">Delete cafe</span>
+              <span class="hidden sm:block text-red-400 hover:text-red-500">Удалить</span>
             </a>
           </span>
         </div>
@@ -37,14 +37,14 @@
 
       <div class="">
         <div class="mt-10 px-4" v-show="cafe.description">
-          <div class="text-3xl font-bold text-black mb-2">Description</div>
+          <div class="text-3xl font-bold text-black mb-2">Описание</div>
           <div>
             {{ cafe.description }}
           </div>
         </div>
 
         <div class="mt-10 px-4" v-if="cafe.brew_methods.length">
-          <div class="text-3xl font-bold text-black mb-4">Brew methods</div>
+          <div class="text-3xl font-bold text-black mb-4">Способы заваривания</div>
           <div class="flex flex-col flex-wrap w-full md:flex-row">
             <div class="flex items-start w-full md:w-1/2 lg:w-1/3 pr-10 mb-4" v-for="brew_method in cafe.brew_methods" :key="brew_method.id">
               <div class="px-4 py-6 border border-gray-400 rounded-md w-full">
@@ -55,21 +55,21 @@
         </div>
 
         <div class="mt-10 px-4">
-          <div class="text-3xl font-bold text-black mb-4">Drink Options</div>
+          <div class="text-3xl font-bold text-black mb-4">Варианты напитков</div>
           <div class="flex flex-col w-full md:flex-row">
             <div class="flex items-start w-full md:w-1/2 lg:w-1/3" v-if="cafe.matcha">
               <img src="/img/icons/matcha.svg" class="mr-5">
               <div class="flex flex-col">
-                <span class="font-bold text-base leading-none">Matcha</span>
-                <span class="text-base text-gray-600">Matcha is available here.</span>
+                <span class="font-bold text-base leading-none">Матча</span>
+                <span class="text-base text-gray-600">Матча доступен здесь.</span>
               </div>
             </div>
 
             <div class="flex items-start mt-4 w-full md:mt-0 md:w-1/2 lg:w-1/3" v-if="cafe.tea">
               <img src="/img/icons/tea.svg" class="mr-5">
               <div class="flex flex-col">
-                <span class="font-bold text-base leading-none">Tea</span>
-                <span class="text-base text-gray-600">This Cafe makes Tea too.</span>
+                <span class="font-bold text-base leading-none">Чай</span>
+                <span class="text-base text-gray-600">Это кафе тоже делает чай.</span>
               </div>
             </div>
           </div>
