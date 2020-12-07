@@ -204,7 +204,7 @@
             <div class="pt-5 pb-6 px-5 space-y-6">
               <div class="flex items-center justify-between">
                 <div>
-                  <img class="h-7 w-auto" src="https://roastandbrew.coffee/img/logos/header-logo.svg" alt="Workflow">
+                  <img class="h-7 w-auto" src="/img/logos/header-logo.svg" alt="Workflow">
                 </div>
                 <div class="-mr-2">
                   <button @click="isMobMenuOpen = !isMobMenuOpen" type="button" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500 transition duration-150 ease-in-out">

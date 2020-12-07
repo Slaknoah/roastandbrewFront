@@ -266,7 +266,7 @@
 <script>
 export default {
   layout: 'App',
-  middleware: 'auth',
+  middleware: ['auth', 'admin'],
   data() {
     return {
       processing: false,

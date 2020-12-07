@@ -3,14 +3,14 @@
     <div class="w-full bg-cover bg-center h-56.25 md:h-72 lg:h-125" :style="'background-image: url(' + company.header_image_url + ')'"></div>
     <div class="flex flex-col pb-10 pt-10 w-full mx-auto max-w-screen-xl">
       <div class="mb-5 flex justify-end px-4 sm:px-6 lg:ml-4 lg:flex-row">
-        <span class="shadow-sm rounded-md mr-2" v-if="$auth.loggedIn">
+        <span class="shadow-sm rounded-md mr-2" v-if="$auth.loggedIn && canModifyCompany">
           <nuxt-link :to="'/companies/' + company.slug + '/edit'" class="inline-flex items-center px-4 py-2 border border-gray-300 text-sm leading-5 font-medium rounded-md text-gray-700 bg-white hover:text-gray-500 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 active:text-gray-800 active:bg-gray-50 transition duration-150 ease-in-out">
             <svg class="sm:-ml-1 sm:mr-2 h-5 w-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg>
             <span class="hidden sm:block">Изменить</span>
           </nuxt-link>
         </span>
 
-        <span class="shadow-sm rounded-md" v-if="$auth.loggedIn">
+        <span class="shadow-sm rounded-md" v-if="$auth.loggedIn && canModifyCompany">
           <a @click.prevent="deleteCompany" href="#" class="inline-flex items-center px-4 py-2 border border-red-400 text-sm leading-5 font-medium rounded-md text-gray-700 bg-white hover:border-red-500 focus:outline-none focus:shadow-outline-red focus:border-red-300 active:text-red-800 active:bg-red-50 transition duration-150 ease-in-out">
             <svg class="sm:-ml-1 sm:mr-2 h-5 w-5 text-red-400 hover:text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
             <span class="hidden sm:block text-red-400 hover:text-red-500">Удалить</span>
@@ -30,10 +30,6 @@
               <div class="mt-2 flex items-center text-sm leading-5 text-gray-500 sm:mr-6" v-if="company.cafes_count">
                 <svg class="flex-shrink-0 mr-1 h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
                 {{ company.cafes_count }} Кафе
-              </div>
-              <div class="mt-2 flex items-center text-sm leading-5 text-gray-500 sm:mr-6" v-if="company.roaster">
-                <svg class="flex-shrink-0 mr-1 h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"></path></svg>
-                Ростер
               </div>
               <div class="mt-2 flex items-center text-sm leading-5 text-gray-500 sm:mr-6">
                 <!-- Heroicon name: location-marker -->
@@ -91,12 +87,12 @@
         <div class="mt-10 px-4">
           <div class="text-3xl font-bold text-black mb-2">
             Кафе
-            <a class="text-green-600 font-bold text-base ml-1"
+            <a class="text-indigo-600 font-bold text-base ml-1"
               @click="login('navigate-to-add-cafe')"
-              v-if="!$auth.loggedIn">Add Cafe →</a>
+              v-if="!$auth.loggedIn">Добавить кафе →</a>
             <nuxt-link :to="'/companies/'+company.slug+'/cafes/new'"
-                      class="text-green-600 font-bold text-base ml-1"
-                      v-if="$auth.loggedIn">Add Cafe →</nuxt-link>
+                      class="text-indigo-600 font-bold text-base ml-1"
+                      v-if="$auth.loggedIn && canModifyCompany">Добавить кафе →</nuxt-link>
           </div>
           <div class="flex justify-start flex-wrap overflow-x-auto pt-2 lg:flex-wrap">
             <nuxt-link v-for="cafe in cafes"
@@ -105,7 +101,7 @@
                       class="flex-grow-0 flex-shrink-0 mb-5 mr-4 cursor-pointer w-full sm:w-48 md:w-56.25">
 
               <div class="bg-white border-b-2 border-gray-200 rounded-15" style="box-shadow: rgba(0, 0, 0, 0.21) 0px 2px 9px 0px;">
-                <div class="block w-full bg-center bg-cover rounded-t-15 h-32 md:h-48" :style="'background-image: url(' + cafe.primary_image_url + ');'">
+                <div class="block w-full bg-center bg-cover rounded-t-15 h-40 md:h-48" :style="'background-image: url(' + cafe.primary_image_url + ');'">
                 </div>
                 <div class="flex flex-col border-t border-lightBlueBorder py-5 px-4">
                   <span class="font-bold text-base w-full truncate">{{ cafe.location_name }}</span>
@@ -155,7 +151,10 @@ export default {
   computed: {
     ...mapState('pendingActions', {
       'preAuthAction': state => state.preAuthAction
-    })
+    }),
+    canModifyCompany() {
+      return this.$auth.loggedIn && this.$auth.user.permission != 'user';
+    }
   },
   methods: {
     async deleteCompany() {
