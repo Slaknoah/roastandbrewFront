@@ -171,7 +171,7 @@ export default {
                     .then( function() {
                       // Handle authentication success
                       this.closeRegister();
-                      EventBus.$emit('roast-login');
+                      EventBus.$emit('zerno-login');
                     }.bind(this) )
                 }.bind(this)
               )

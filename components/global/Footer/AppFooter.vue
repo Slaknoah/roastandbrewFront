@@ -9,10 +9,10 @@
         © 2020 <a href="https://slaknoah.com">Slaknoah</a>.
         <a href="#" target="_blank">Политика конфиденциальности</a> — <a href="#" target="_blank">Условия и положения</a></div>
         <div class="mt-2 flex items-center">
-          <a href="https://www.instagram.com/roastcoffeeapp/" target="_blank" class="mr-1">
+          <a href="https://www.instagram.com/zerno/" target="_blank" class="mr-1">
             <img src="/img/logos/instagram.svg">
           </a>
-          <a href="https://twitter.com/roastcoffeeapp" target="_blank" class="ml-1">
+          <a href="https://twitter.com/zerno" target="_blank" class="ml-1">
             <img src="/img/logos/twitter.svg">
           </a>
       </div>

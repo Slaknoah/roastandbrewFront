@@ -151,11 +151,11 @@ export default {
                   device_name: 'Mobile App'
                 } } )
                 .then( function( response ) {
-                  this.$CapacitorSecureStorage.set({ key: 'roastAuthToken', value: response.data.token })
+                  this.$CapacitorSecureStorage.set({ key: 'zernoAuthToken', value: response.data.token })
                     .then( function( success ) {
                       this.closeLogin();
                       this.runPreAuthAction();
-                      EventBus.$emit('roast-login');
+                      EventBus.$emit('zerno-login');
                     }.bind(this) )
                     .catch( function( error ) {
                       console.log( error );
@@ -173,7 +173,7 @@ export default {
                 // Handle successful login
                 this.closeLogin();
                 this.runPreAuthAction();
-                EventBus.$emit('roast-login');
+                EventBus.$emit('zerno-login');
               }.bind(this)
             )
             .catch( function (error) {

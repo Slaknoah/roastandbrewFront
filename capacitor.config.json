@@ -3,10 +3,10 @@
   "webDir": "dist",
   "plugins": {},
   "server": {
-    "iosScheme": "roastandbrew",
-    "url": "http://192.168.0.103:4000",
+    "iosScheme": "Zerno",
+    "url": "http://127.0.0.1:4000",
     "cleartext": true
   },
-  "appId": "coffeeios.roastandbrew.mobile",
-  "appName": "RoastAndBrew"
+  "appId": "coffeeios.zerno.mobile",
+  "appName": "Zerno"
 }

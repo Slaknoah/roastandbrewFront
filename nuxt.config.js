@@ -2,7 +2,7 @@ import fs from 'fs';
 import path from 'path';
 
 require('dotenv').config({
-  path: process.env.ROAST_PLATFORM == 'mobile'
+  path: process.env.ZERNO_PLATFORM == 'mobile'
             ? '.env.mobile-' + ( process.argv[process.argv.length - 1].replace('--', '') )
             : '.env'
 });
@@ -19,7 +19,7 @@ export default {
 
   // Global page headers (https://go.nuxtjs.dev/config-head)
   head: {
-    title: 'ROAST - Discover your next favourite cup of coffee.',
+    title: 'ZERNO - Discover your next favourite cup of coffee.',
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'initial-scale=1, user-scalable=no, width=device-width, height=device-height, viewport-fit=cover' },
@@ -44,7 +44,7 @@ export default {
 
   // Plugins to run before rendering page (https://go.nuxtjs.dev/config-plugins)
   plugins: [
-    '~/plugins/roastAPI.js',
+    '~/plugins/zernoAPI.js',
     {
       src: '~/plugins/secureStorage.js',
       mode: 'client'
@@ -78,7 +78,7 @@ export default {
   },
 
   env: {
-    mobile: process.env.ROAST_PLATFORM == 'mobile' ? true : false
+    mobile: process.env.ZERNO_PLATFORM == 'mobile' ? true : false
   },
 
   auth: {

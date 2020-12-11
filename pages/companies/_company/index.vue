@@ -218,9 +218,9 @@ export default {
     }
   },
   async mounted() {
-    EventBus.$off('roast-login');
+    EventBus.$off('zerno-login');
 
-    EventBus.$on('roast-login', function() {
+    EventBus.$on('zerno-login', function() {
       this.runPreAuthAction();
     }.bind(this));
     this.setUpLikes();

@@ -10,12 +10,14 @@
     <login :showLogin="isLoginOpen && !$auth.user"/>
 
     <app-footer v-show="showFooter"/>
+    <app-mobile-footer class="md:hidden"></app-mobile-footer>
   </div>
 </template>
 
 <script>
 import AppHeader from '@/components/global/Header/AppHeader';
 import AppFooter from '@/components/global/Footer/AppFooter';
+import AppMobileFooter from '@/components/global/Footer/AppMobileFooter';
 import Register from '@/components/auth/Register';
 import Login from '@/components/auth/Login';
 import { EventBus } from '@/event-bus';
@@ -29,7 +31,7 @@ export default {
   },
   components: {
     AppFooter,
-    AppFooter,
+    AppMobileFooter,
     Register,
     Login
   },

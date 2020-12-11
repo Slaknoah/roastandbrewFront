@@ -7,6 +7,17 @@ export default $axios => ({
     }
   },
 
+  async search( params ) {
+    try {
+      const response =  await $axios.$get( '/api/v1/cafes', {
+        params: params
+      } );
+      return response.data;
+    } catch ( err ) {
+      throw err;
+    }
+  },
+
 
   async show ( company, cafe ) {
     try {

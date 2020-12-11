@@ -1,8 +1,0 @@
-version: '3'
-
-services:
-  client:
-    image: node:12
-    working_dir: /
-    environment:
-      VIRTUAL_HOST: roastandbrew.slk

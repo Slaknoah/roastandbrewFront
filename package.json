@@ -1,5 +1,5 @@
 {
-  "name": "RoastAndBrew",
+  "name": "zerno",
   "version": "1.0.0",
   "private": true,
   "scripts": {
@@ -8,8 +8,8 @@
     "start": "nuxt start",
     "generate": "nuxt generate",
     "test": "jest",
-    "mobile": "ROAST_PLATFORM=mobile nuxt generate --spa --fail-on-error",
-    "mobile-dev": "ROAST_PLATFORM=mobile nuxt --spa --fail-on-error"
+    "mobile": "ZERNO_PLATFORM=mobile nuxt generate --spa --fail-on-error",
+    "mobile-dev": "ZERNO_PLATFORM=mobile nuxt --spa --fail-on-error"
   },
   "dependencies": {
     "@capacitor/android": "^2.4.2",
