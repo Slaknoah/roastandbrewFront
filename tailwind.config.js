@@ -7,6 +7,7 @@ module.exports = {
       spacing: {
         '32.5': '8.125rem',
         '56.25': '14.0625rem',
+        '14' : '2rem',
         '72': '18rem',
         '84': '21rem',
         '96': '24rem',
@@ -14,7 +15,7 @@ module.exports = {
       },
       borderRadius: {
         '15': '15px'
-      }
+      },
     }
   },
   plugins: [

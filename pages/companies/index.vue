@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="flex flex-col pb-10 pt-10 w-full mx-auto max-w-screen-xl">
+    <div class="flex flex-col pb-10 md:pt-10 pt-4 w-full mx-auto max-w-screen-xl">
       <div class="px-4 sm:px-6 flex items-center justify-between">
         <h1 class="text-2xl font-bold leading-7 text-gray-900 sm:text-3xl sm:leading-9 sm:truncate">
           Компании

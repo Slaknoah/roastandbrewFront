@@ -21,7 +21,8 @@ export default $axios => ({
 
   async show ( company, cafe ) {
     try {
-      return await $axios.$get( '/api/v1/companies/' + company + '/cafes/' + cafe );
+      const response = await $axios.$get( '/api/v1/companies/' + company + '/cafes/' + cafe );
+      return response.data;
     } catch ( err ) {
       throw err;
     }
